@@ -46,16 +46,19 @@ const DocumentLink = Link.extend({
       new Plugin({
         props: {
           handleClick(view, pos, event) {
-            const attrs = getAttributes(view.state, DocumentLink.name)
-            const href = attrs.href;
-            if (href) {
-              router.push({
+            const clickedNode = view.state.doc.nodeAt(pos);
+            const documentLinkMark = clickedNode?.marks.find(m => m.type.name === DocumentLink.name);
+            if (documentLinkMark) {
+              router().push({
                 name: "Documents",
-                query: { id: attrs.href },
+                query: { id: documentLinkMark.attrs.href },
               });
-              return true
             }
-            return false;
+            const linkMark = clickedNode?.marks.find(m => m.type.name === Link.name);
+            if (linkMark) {
+              window.open(linkMark.attrs.href);
+            }
+            return true;
           },
         },
       }),
