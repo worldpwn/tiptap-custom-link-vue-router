@@ -58,7 +58,7 @@ const DocumentLink = Link.extend({
             if (linkMark) {
               window.open(linkMark.attrs.href);
             }
-            return true;
+            return false;
           },
         },
       }),
